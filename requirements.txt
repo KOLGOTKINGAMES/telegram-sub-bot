@@ -1,1 +1,2 @@
-python-telegram-bot==13.7
+python-telegram-bot[socks]==20.8
+Pillow==10.0.0
