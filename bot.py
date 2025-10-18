@@ -1448,16 +1448,24 @@ def main():
     init_db()
     bot = SubscriptionBot()
     
-    print("Бот запущен! Остановите его сочетанием клавиш Ctrl+C")
+    print("Бот запущен!")
     print(f"📢 Обязательная подписка: {REQUIRED_CHANNEL}")
     print(f"⏱️ Время на сделку: 2 минуты")
     
-    try:
+    # Запускаем бота в отдельном потоке
+    import threading
+    def run_bot():
         bot.application.run_polling()
-    except KeyboardInterrupt:
-        print("Бот остановлен")
+    
+    bot_thread = threading.Thread(target=run_bot)
+    bot_thread.daemon = True
+    bot_thread.start()
+    
+    # Запускаем Flask сервер
+    from app import run_flask
+    run_flask()
 
 if __name__ == '__main__':
-
     main()
+
 
